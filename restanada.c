@@ -57,7 +57,7 @@ int veTopo (pile *pilha) {
     return (pilha->vetor[pilha->topo]);
 }
 
-void movePeça (int **tab, par pos, int mov ) {
+void movePeca (int **tab, par pos, int mov ) {
 
     switch (mov) {
 
@@ -112,10 +112,69 @@ int podeMover (int **tab, par pos, int mov ) {
             else return 0;
     
     }
+}
+
+int** criaResultado (int **tab, int n, int m) {
+
+    int **res, i, j;
+    
+    res = malloc(n*sizeof(int));
+    for (i = 0; i < n; i++)
+        res[i] = malloc(m*sizeof(int));
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            
+            if (tab[i][j] == 1)
+                res[i][j] = -1;
+
+            if (tab[i][j] == -1)
+                res[i][j] = 1;
+
+            else
+                res[i][j] = 0;
+        }
+    }
+
+    return (res);
+}
+
+
+int confereMatriz (int **tab, int **res, int n, int m) {
+
+    int i, j;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < m; j++) {
+            if (tab[i][j] != res[i][j])
+                return 0;
+        }
+    }
+
+    return 1;
 
 }
 
+par procuraBuraco (int **tab, int n, int m) {
+    
+    
+}
+
+
+int procuraGanhar (int **tab, int **res, int n, int m) {
+
+}
+
+
+
+
+
 int main() {
+
+    int n, m;
+     
+     n = 2;
+     m = 3;
    
-    return 0
+    return 0;
 }
