@@ -13,7 +13,6 @@ typedef struct {
 } joga;
 
 typedef struct {
-
     int topo;
     joga *vetor;
 } pile;
@@ -127,6 +126,9 @@ void guardaJogadas (int **tab, par pos, pile *pilha, int n, int m) {
                 
 }
 
+void desfazJogada ()
+
+
 int** criaResultado (int **tab, int n, int m) {
 
     int **res, i, j;
@@ -167,19 +169,6 @@ int confereMatriz (int **tab, int **res, int n, int m) {
     return 1;
 
 }
-
-par procuraBuraco (int **tab, int n, int m) {
-    
-    
-}
-
-
-int procuraGanhar (int **tab, int **res, int n, int m) {
-
-}
-
-
-
 
 
 int main() {
