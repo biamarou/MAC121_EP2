@@ -1,36 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-typedef struct {
-
-    int topo;
-    int *vetor;
-} pile;
-
 typedef struct {
     int lin;
     int col;
 } par;
 
 
+typedef struct {
+   par coord;
+   int mov;    
+} joga;
+
+typedef struct {
+
+    int topo;
+    joga *vetor;
+} pile;
 
 
 void criaPilha(int tamanho, pile *pilha) {
 
     pilha->topo = 0;
-    pilha->vetor = malloc(tamanho*sizeof(int));
+    pilha->vetor = malloc(tamanho*sizeof(joga));
 }
 
-void colocaPrimeiro(int n, pile *pilha) {
+void colocaPrimeiro(joga n, pile *pilha) {
         
     pilha->vetor[pilha->topo] = n;
     pilha->topo++;    
 }
 
-int tiraPrimeiro (pile *pilha) {
+joga tiraPrimeiro (pile *pilha) {
 
-    int f;
+    joga f;
     pilha->topo--;
     f = pilha->vetor[pilha->topo];
     
@@ -53,7 +56,7 @@ void destroiPilha (pile *pilha) {
     pilha = NULL;
 }
 
-int veTopo (pile *pilha) {
+joga veTopo (pile *pilha) {
     return (pilha->vetor[pilha->topo]);
 }
 
@@ -87,31 +90,41 @@ void movePeca (int **tab, par pos, int mov ) {
     }
 }
 
-int podeMover (int **tab, par pos, int mov ) {
+void guardaJogadas (int **tab, par pos, pile *pilha, int n, int m) {
 
-    switch (mov) {
-
-        case 1 :
-            if (tab[pos.lin][pos.col] == -1 && tab[pos.lin][pos.col + 1] == 1 && tab[pos.lin][pos.col + 2] == 1)
-                return 1;
-            else return 0;
-        
-        case 2 :
-            if (tab[pos.lin][pos.col] == -1 && tab[pos.lin][pos.col - 1] == 1 && tab[pos.lin][pos.col - 2] == 1)
-                return 1;
-            else return 0;
-
-        case 3 :
-            if (tab[pos.lin][pos.col] == -1 && tab[pos.lin + 1][pos.col] == 1 && tab[pos.lin + 2][pos.col] == 1)
-                return 1;
-            else return 0;
-
-        case 4 :
-            if (tab[pos.lin][pos.col] == -1 && tab[pos.lin - 1][pos.col] == 1 && tab[pos.lin - 2][pos.col] == 1)
-                return 1;
-            else return 0;
+    joga entries; 
     
+    if (pos.col < n && tab[pos.lin][pos.col] == -1 && tab[pos.lin][pos.col + 1] == 1 && tab[pos.lin][pos.col + 2] == 1) {
+        entries.coord.lin = pos.lin;
+        entries.coord.col = pos.col;
+        entries.mov = 1;
+        colocaPrimeiro(entries, pilha);
+
     }
+
+    if (pos.col > 1 && tab[pos.lin][pos.col] == -1 && tab[pos.lin][pos.col - 1] == 1 && tab[pos.lin][pos.col - 2] == 1) {
+        entries.coord.lin = pos.lin;
+        entries.coord.col = pos.col;
+        entries.mov = 2;
+        colocaPrimeiro(entries, pilha); 
+    }
+                
+
+    if (pos.lin < m && tab[pos.lin][pos.col] == -1 && tab[pos.lin + 1][pos.col] == 1 && tab[pos.lin + 2][pos.col] == 1) {
+        entries.coord.lin = pos.lin;
+        entries.coord.col = pos.col;
+        entries.mov = 3;
+        colocaPrimeiro(entries, pilha);
+    }
+
+    
+    if (pos.lin > 1 && tab[pos.lin][pos.col] == -1 && tab[pos.lin - 1][pos.col] == 1 && tab[pos.lin - 2][pos.col] == 1) {
+        entries.coord.lin = pos.lin;
+        entries.coord.col = pos.col;
+        entries.mov = 4;
+        colocaPrimeiro(entries, pilha); 
+    }
+                
 }
 
 int** criaResultado (int **tab, int n, int m) {
